@@ -46,10 +46,36 @@ function Game() {
 
 	//Get Question info
 	this.getQ = function () {
-		return this.qSet[this.currentQ-1][0];	
+		if (this.playing) {
+			return this.qSet[this.currentQ-1][0];	
+		}
+		else {return null}
 	}
 
 	this.getAns = function () {
-		return this.qSet[this.currentQ-1][1];	
+		if (this.playing) {
+			return this.qSet[this.currentQ-1][1];	
+		}
+		else {return null}
 	}
+}
+
+//---------main----------
+var obj = new Game();
+$(document).ready( function () {
+	newQuestion(obj);
+	$('span[index]').each(function () {
+		$(this).click( function () {
+			obj.submit(Number($(this).attr('index')));
+			newQuestion(obj);
+	});
+	});
+});
+
+//------function declarations-----------
+function newQuestion(obj) {
+	$('#question').text(obj.getQ());
+	$("span[index]").each( function () {
+		$(this).text(obj.getAns()[Number($(this).attr('index'))]); //obj.getAns()[Number($(this).attr('index'))] 
+	});
 }
