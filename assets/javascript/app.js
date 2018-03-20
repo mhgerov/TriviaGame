@@ -1,6 +1,6 @@
 //Classic Videogame Theme
 
-//Game Object
+//------------Game Object------------------------
 function Game() {
 	//Store Questions
 	this.qSet = [
@@ -63,13 +63,9 @@ function Game() {
 //---------main----------
 var obj = new Game();
 $(document).ready( function () {
-	newQuestion(obj);
-	$('span[index]').each(function () {
-		$(this).click( function () {
-			obj.submit(Number($(this).attr('index')));
-			newQuestion(obj);
-	});
-	});
+	startScreen();
+	//Add click listener to start button
+	$('#start-game').click(drawQuestion);
 });
 
 //------function declarations-----------
@@ -78,4 +74,19 @@ function newQuestion(obj) {
 	$("span[index]").each( function () {
 		$(this).text(obj.getAns()[Number($(this).attr('index'))]); //obj.getAns()[Number($(this).attr('index'))] 
 	});
+}
+
+function startScreen() {
+	$('#game-screen').empty().append('<button id="start-game">Start Game!</button>');
+}
+
+function drawQuestion() {
+	//Clear screen
+	$('#game-screen').empty()
+	//Add question
+	$('#game-screen').append('<div id="question"></div>');
+	$('#question').text(obj.getQ());
+	for (var i=65;i<69;i++) {
+		$('#game-screen').append('<div>'+String.fromCharCode(i)+': '+obj.getAns()[i-65]+'</div>');
+	}
 }
