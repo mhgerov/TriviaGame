@@ -43,6 +43,16 @@ function Game() {
 		}
 		else {return null};
 	}
+	//Question timeout
+	this.timeOut = function() {
+		this.numWrong++;
+		this.currentQ++;
+		if (this.currentQ>this.qSet.length) {
+			this.playing = false;
+		}
+		return false;
+
+	}
 
 	//Get Question info
 	this.getQ = function () {
@@ -62,31 +72,73 @@ function Game() {
 
 //---------main----------
 var obj = new Game();
+var result;	//result of each question answer
+var aTimer, qTimer;
+var gs = '#game-screen'; //helper var to manipulate game window
+
 $(document).ready( function () {
 	startScreen();
 	//Add click listener to start button
-	$('#start-game').click(drawQuestion);
 });
 
 //------function declarations-----------
-function newQuestion(obj) {
-	$('#question').text(obj.getQ());
-	$("span[index]").each( function () {
-		$(this).text(obj.getAns()[Number($(this).attr('index'))]); //obj.getAns()[Number($(this).attr('index'))] 
-	});
-}
 
 function startScreen() {
-	$('#game-screen').empty().append('<button id="start-game">Start Game!</button>');
+	$(gs).empty().append('<button id="start-game">Start Game!</button>');
+	$('#start-game').click(drawQuestion);
 }
 
 function drawQuestion() {
 	//Clear screen
-	$('#game-screen').empty()
+	$(gs).empty()
 	//Add question
-	$('#game-screen').append('<div id="question"></div>');
+	$(gs).append('<div id="question"></div>');
 	$('#question').text(obj.getQ());
+	//Add possible answers
 	for (var i=65;i<69;i++) {
-		$('#game-screen').append('<div>'+String.fromCharCode(i)+': '+obj.getAns()[i-65]+'</div>');
+		/*$(gs).append('<div index="'+(i-65)+'">'+String.fromCharCode(i)+': '+obj.getAns()[i-65]+'</div>');*/
+		$(gs).append($('<div></div>)').text(String.fromCharCode(i)+": "+obj.getAns()[i-65]).attr('index',i-65));
 	}
+	//Add listener events to answers
+	$("[index]").each(function() {
+		$(this).on('click',function() {
+			result = obj.submit(Number($(this).attr('index')));
+			clearTimeout(qTimer);
+			drawAnswer(result);	
+		});
+	});
+	//timer
+	var time = 10;
+	$(gs).append('<hr/><div id="timer">'+time+'</div>');
+	qTimer = setInterval(function() {
+		time--;
+		$('#timer').text(time);
+		if (time==0) {
+			clearInterval(qTimer);
+			drawAnswer(obj.timeOut());
+		}
+	},1000);
+}
+
+function drawAnswer(result) {
+	$(gs).empty();
+	if (result)	{
+		$(gs).append("<div>You are correct!</div>");
+	}
+	else {
+		$(gs).append("<div>WRONG!</div>");
+	}
+	//timer
+	aTimer = setTimeout(function() {obj.playing?drawQuestion():drawFinish();},1000);
+}
+
+function drawFinish() {
+	$(gs).empty();
+	$(gs).append('<div>Questions correct: '+obj.numCorrect+'</div>');
+	$(gs).append('<div>Questions wrong: '+obj.numWrong+'</div>');
+	$(gs).append('<div>Play Again?<button id="start-game">Start Game!</button></div>');
+	$('#start-game').click(function() {
+		obj = new Game();
+		drawQuestion();
+	})
 }
