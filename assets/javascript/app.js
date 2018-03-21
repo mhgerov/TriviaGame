@@ -84,7 +84,7 @@ $(document).ready( function () {
 //------function declarations-----------
 
 function startScreen() {
-	$(gs).empty().append('<button id="start-game" type="button" class="btn btn-danger w-25 font-weight-bold" style="height:100px">START GAME!</button>');
+	$(gs).empty().append('<button id="start-game" type="button" class="btn btn-danger w-50 font-weight-bold" style="height:100px">START GAME!</button>');
 	$('#start-game').click(drawQuestion);
 }
 
@@ -123,10 +123,10 @@ function drawQuestion() {
 function drawAnswer(result) {
 	$(gs).empty();
 	if (result)	{
-		$(gs).append("<div>You are correct!</div>");
+		$(gs).append('<h2 class="font-weight-bold">CORRECT!</h2>');
 	}
 	else {
-		$(gs).append("<div>WRONG!</div>");
+		$(gs).append('<h2 class="font-weight-bold">WRONG!</h2>');
 	}
 	//timer
 	aTimer = setTimeout(function() {obj.playing?drawQuestion():drawFinish();},1000);
