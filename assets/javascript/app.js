@@ -84,7 +84,7 @@ $(document).ready( function () {
 //------function declarations-----------
 
 function startScreen() {
-	$(gs).empty().append('<button id="start-game">Start Game!</button>');
+	$(gs).empty().append('<button id="start-game" type="button" class="btn btn-danger w-25 font-weight-bold" style="height:100px">START GAME!</button>');
 	$('#start-game').click(drawQuestion);
 }
 
@@ -92,12 +92,12 @@ function drawQuestion() {
 	//Clear screen
 	$(gs).empty()
 	//Add question
-	$(gs).append('<div id="question"></div>');
+	$(gs).append('<h2 id="question"></h2>');
 	$('#question').text(obj.getQ());
 	//Add possible answers
 	for (var i=65;i<69;i++) {
 		/*$(gs).append('<div index="'+(i-65)+'">'+String.fromCharCode(i)+': '+obj.getAns()[i-65]+'</div>');*/
-		$(gs).append($('<div></div>)').text(String.fromCharCode(i)+": "+obj.getAns()[i-65]).attr('index',i-65));
+		$(gs).append($('<button type="button" class="btn btn-primary w-75 m-1"></button>)').text(String.fromCharCode(i)+": "+obj.getAns()[i-65]).attr('index',i-65));
 	}
 	//Add listener events to answers
 	$("[index]").each(function() {
