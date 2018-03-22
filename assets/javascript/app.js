@@ -84,7 +84,7 @@ $(document).ready( function () {
 //------function declarations-----------
 
 function startScreen() {
-	$(gs).empty().append('<button id="start-game">Start Game!</button>');
+	$(gs).empty().append('<button id="start-game" type="button" class="btn btn-danger w-50 font-weight-bold" style="height:100px">START GAME!</button>');
 	$('#start-game').click(drawQuestion);
 }
 
@@ -92,12 +92,12 @@ function drawQuestion() {
 	//Clear screen
 	$(gs).empty()
 	//Add question
-	$(gs).append('<div id="question"></div>');
+	$(gs).append('<h2 id="question"></h2>');
 	$('#question').text(obj.getQ());
 	//Add possible answers
 	for (var i=65;i<69;i++) {
 		/*$(gs).append('<div index="'+(i-65)+'">'+String.fromCharCode(i)+': '+obj.getAns()[i-65]+'</div>');*/
-		$(gs).append($('<div></div>)').text(String.fromCharCode(i)+": "+obj.getAns()[i-65]).attr('index',i-65));
+		$(gs).append($('<button type="button" class="btn btn-primary w-75 m-1"></button>)').text(String.fromCharCode(i)+": "+obj.getAns()[i-65]).attr('index',i-65));
 	}
 	//Add listener events to answers
 	$("[index]").each(function() {
@@ -123,10 +123,10 @@ function drawQuestion() {
 function drawAnswer(result) {
 	$(gs).empty();
 	if (result)	{
-		$(gs).append("<div>You are correct!</div>");
+		$(gs).append('<h2 class="font-weight-bold">CORRECT!</h2>');
 	}
 	else {
-		$(gs).append("<div>WRONG!</div>");
+		$(gs).append('<h2 class="font-weight-bold">WRONG!</h2>');
 	}
 	//timer
 	aTimer = setTimeout(function() {obj.playing?drawQuestion():drawFinish();},1000);
@@ -134,11 +134,13 @@ function drawAnswer(result) {
 
 function drawFinish() {
 	$(gs).empty();
-	$(gs).append('<div>Questions correct: '+obj.numCorrect+'</div>');
-	$(gs).append('<div>Questions wrong: '+obj.numWrong+'</div>');
-	$(gs).append('<div>Play Again?<button id="start-game">Start Game!</button></div>');
+	$(gs).append('<h2>Questions correct: '+obj.numCorrect+'</h2>');
+	$(gs).append('<h2>Questions wrong: '+obj.numWrong+'</h2>');
+	$(gs).append('<div>Play Again?</div>');
+	$(gs).append('<button id="start-game" type="button" class="btn btn-danger w-50 font-weight-bold" style="height:100px">Start Game!</button>');
 	$('#start-game').click(function() {
 		obj = new Game();
 		drawQuestion();
 	})
 }
+// id="start-game" type="button" class="btn btn-danger w-50 font-weight-bold" style="height:100px
