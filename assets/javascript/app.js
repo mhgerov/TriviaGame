@@ -134,11 +134,13 @@ function drawAnswer(result) {
 
 function drawFinish() {
 	$(gs).empty();
-	$(gs).append('<div>Questions correct: '+obj.numCorrect+'</div>');
-	$(gs).append('<div>Questions wrong: '+obj.numWrong+'</div>');
-	$(gs).append('<div>Play Again?<button id="start-game">Start Game!</button></div>');
+	$(gs).append('<h2>Questions correct: '+obj.numCorrect+'</h2>');
+	$(gs).append('<h2>Questions wrong: '+obj.numWrong+'</h2>');
+	$(gs).append('<div>Play Again?</div>');
+	$(gs).append('<button id="start-game" type="button" class="btn btn-danger w-50 font-weight-bold" style="height:100px">Start Game!</button>');
 	$('#start-game').click(function() {
 		obj = new Game();
 		drawQuestion();
 	})
 }
+// id="start-game" type="button" class="btn btn-danger w-50 font-weight-bold" style="height:100px
